@@ -17,6 +17,15 @@
 }
 else
 {
+    <ul class="pagination mt-3">
+        @for (int i = 1; i <= MaxPageNumber; i++)
+        {
+            <li class="page-item @(CurrentPage == i ? "active" : "")">
+                <a class="page-link" href="/employees/list/@i">@i</a>
+            </li>
+        } 
+    </ul>
+    
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
@@ -38,11 +47,14 @@ else
         }
         </tbody>
     </table>
+
 }
 
 @code {
 
     private const int ItemsPerPage = 4;
+    
+    private int MaxPageNumber { get; set; }
 
     [Parameter]
     public int? CurrentPage { get; set; }
@@ -62,13 +74,13 @@ else
         var itemsToSkip = (CurrentPage.Value - 1) * ItemsPerPage;
         var employeesCount = await context.Employees.CountAsync();
 
-        var maxPageNumber = employeesCount == 0 
+        MaxPageNumber = employeesCount == 0 
             ? 1 
             : (int)Math.Ceiling(employeesCount / (double)ItemsPerPage);
 
-        if (CurrentPage > maxPageNumber)
+        if (CurrentPage > MaxPageNumber)
         {
-            NavigationManager.NavigateTo($"/employees/list/{maxPageNumber}");
+            NavigationManager.NavigateTo($"/employees/list/{MaxPageNumber}");
             return;
         }
         
