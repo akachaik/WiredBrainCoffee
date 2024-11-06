@@ -21,6 +21,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    
+    await EnsureDatabaseIsMigrated(app.Services);
 }
 
 app.UseHttpsRedirection();
@@ -32,3 +34,12 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+async Task EnsureDatabaseIsMigrated(IServiceProvider appServices)
+{
+    using var scope = app.Services.CreateScope();
+
+    await using var context = scope.ServiceProvider.GetRequiredService<EmployeeManagerDbContext>();
+    
+    await context.Database.MigrateAsync();
+}
