@@ -62,7 +62,9 @@ else
         var itemsToSkip = (CurrentPage.Value - 1) * ItemsPerPage;
         var employeesCount = await context.Employees.CountAsync();
 
-        var maxPageNumber = (int)Math.Ceiling(employeesCount / (double)ItemsPerPage);
+        var maxPageNumber = employeesCount == 0 
+            ? 1 
+            : (int)Math.Ceiling(employeesCount / (double)ItemsPerPage);
 
         if (CurrentPage > maxPageNumber)
         {
