@@ -1,10 +1,11 @@
-@page "/employees/list"
+@page "/employees/list/{CurrentPage:int?}"
 
 @using Microsoft.EntityFrameworkCore
 @using WiredBrainCoffee.EmployeeManager.Data
 @using WiredBrainCoffee.EmployeeManager.Data.Models
 
 @inject IDbContextFactory<EmployeeManagerDbContext> ContextFactory
+@inject NavigationManager NavigationManager
 
 <PageTitle>Employees</PageTitle>
 
@@ -41,13 +42,39 @@ else
 
 @code {
 
-    protected override async Task OnInitializedAsync()
+    private const int ItemsPerPage = 4;
+
+    [Parameter]
+    public int? CurrentPage { get; set; }
+    
+    
+    protected override async Task OnParametersSetAsync()
     {
         using var contextTask = ContextFactory.CreateDbContextAsync();
         var context = await contextTask;
+
+        if (CurrentPage is null or < 1)
+        {
+            NavigationManager.NavigateTo("/employees/list/1");
+            return;
+        }
+
+        var itemsToSkip = (CurrentPage.Value - 1) * ItemsPerPage;
+        var employeesCount = await context.Employees.CountAsync();
+
+        var maxPageNumber = (int)Math.Ceiling(employeesCount / (double)ItemsPerPage);
+
+        if (CurrentPage > maxPageNumber)
+        {
+            NavigationManager.NavigateTo($"/employees/list/{maxPageNumber}");
+            return;
+        }
         
         Employees = await context.Employees
             .Include(e => e.Department)
+            .OrderBy(emp => emp.FirstName)
+            .Skip(itemsToSkip)
+            .Take(ItemsPerPage)
             .ToArrayAsync();
     }
 
