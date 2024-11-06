@@ -37,34 +37,7 @@ namespace WiredBrainCoffee.EmployeeManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "IT"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "HR"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Sales"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Marketing"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Financial"
-                        });
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("WiredBrainCoffee.EmployeeManager.Data.Models.Employee", b =>
@@ -96,49 +69,7 @@ namespace WiredBrainCoffee.EmployeeManager.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DepartmentId = 1,
-                            FirstName = "Jane",
-                            IsDeveloper = false,
-                            LastName = "Doe"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DepartmentId = 3,
-                            FirstName = "John",
-                            IsDeveloper = true,
-                            LastName = "Doe"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DepartmentId = 2,
-                            FirstName = "Mary",
-                            IsDeveloper = false,
-                            LastName = "Doe"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DepartmentId = 2,
-                            FirstName = "Jack",
-                            IsDeveloper = true,
-                            LastName = "Doe"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DepartmentId = 1,
-                            FirstName = "Mary",
-                            IsDeveloper = false,
-                            LastName = "Doe"
-                        });
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("WiredBrainCoffee.EmployeeManager.Data.Models.Employee", b =>
