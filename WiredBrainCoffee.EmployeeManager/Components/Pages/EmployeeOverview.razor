@@ -1,5 +1,7 @@
 @page "/employees/list/{CurrentPage:int?}"
 
+@rendermode InteractiveServer
+
 @using Microsoft.EntityFrameworkCore
 @using WiredBrainCoffee.EmployeeManager.Data
 @using WiredBrainCoffee.EmployeeManager.Data.Models
@@ -18,12 +20,18 @@
 else
 {
     <ul class="pagination mt-3">
+        <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link" href="/employees/list/@(CurrentPage - 1)">Previous</a>
+        </li>
         @for (int i = 1; i <= MaxPageNumber; i++)
         {
             <li class="page-item @(CurrentPage == i ? "active" : "")">
                 <a class="page-link" href="/employees/list/@i">@i</a>
             </li>
-        } 
+        }
+        <li class="page-item @(CurrentPage == MaxPageNumber ? "disabled" : "")">
+            <a class="page-link" href="/employees/list/@(CurrentPage + 1)">Next</a>
+        </li>
     </ul>
     
     <table class="table table-striped table-bordered table-hover">
