@@ -66,16 +66,18 @@ else
 
     [Parameter]
     public int? CurrentPage { get; set; }
-    
+
+    const string EmployeeListBase = "/employees/list";
     
     protected override async Task OnParametersSetAsync()
     {
+
         using var contextTask = ContextFactory.CreateDbContextAsync();
         var context = await contextTask;
 
         if (CurrentPage is null or < 1)
         {
-            NavigationManager.NavigateTo("/employees/list/1");
+            NavigationManager.NavigateTo($"{EmployeeListBase}/1");
             return;
         }
 
@@ -88,7 +90,7 @@ else
 
         if (CurrentPage > MaxPageNumber)
         {
-            NavigationManager.NavigateTo($"/employees/list/{MaxPageNumber}");
+            NavigationManager.NavigateTo($"{EmployeeListBase}/{MaxPageNumber}");
             return;
         }
         
