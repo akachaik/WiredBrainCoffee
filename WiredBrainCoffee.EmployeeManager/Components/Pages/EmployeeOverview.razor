@@ -4,7 +4,7 @@
 @using WiredBrainCoffee.EmployeeManager.Data
 @using WiredBrainCoffee.EmployeeManager.Data.Models
 
-@inject EmployeeManagerDbContext Context
+@inject IDbContextFactory<EmployeeManagerDbContext> ContextFactory
 
 <PageTitle>Employees</PageTitle>
 
@@ -43,7 +43,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Employees = await Context.Employees
+        using var contextTask = ContextFactory.CreateDbContextAsync();
+        var context = await contextTask;
+        
+        Employees = await context.Employees
             .Include(e => e.Department)
             .ToArrayAsync();
     }
