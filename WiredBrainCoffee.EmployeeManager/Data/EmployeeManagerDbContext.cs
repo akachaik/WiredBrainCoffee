@@ -29,22 +29,22 @@ public class EmployeeManagerDbContext : DbContext
 
         modelBuilder.Entity<Employee>()
             .HasData(
-                new Employee { Id = 1,  FirstName = "Jane",        LastName = "Smith",     DepartmentId = 3 },
-                new Employee { Id = 2,  FirstName = "John",        LastName = "Johnson",   DepartmentId = 2, IsDeveloper = true },
-                new Employee { Id = 3,  FirstName = "Mary",        LastName = "Williams",  DepartmentId = 4 },
-                new Employee { Id = 4,  FirstName = "Jack",        LastName = "Davis",     DepartmentId = 1, IsDeveloper = true },
-                new Employee { Id = 5,  FirstName = "Mary",        LastName = "Brown",     DepartmentId = 5 },
-                new Employee { Id = 6,  FirstName = "Bob",         LastName = "Miller",    DepartmentId = 2 },
-                new Employee { Id = 7,  FirstName = "Alice",       LastName = "Wilson",    DepartmentId = 3, IsDeveloper = true },
-                new Employee { Id = 8,  FirstName = "Tom",         LastName = "Anderson",  DepartmentId = 4 },
-                new Employee { Id = 9,  FirstName = "Sarah",       LastName = "Taylor",    DepartmentId = 1, IsDeveloper = true },
-                new Employee { Id = 10, FirstName = "David",       LastName = "Thompson",  DepartmentId = 5 },
-                new Employee { Id = 11, FirstName = "Emily",       LastName = "Garcia",    DepartmentId = 2, IsDeveloper = true },
-                new Employee { Id = 12, FirstName = "Michael",     LastName = "Hernandez", DepartmentId = 3 },
-                new Employee { Id = 13, FirstName = "Jessica",     LastName = "Gonzalez",  DepartmentId = 4, IsDeveloper = true },
-                new Employee { Id = 14, FirstName = "Christopher", LastName = "Diaz",      DepartmentId = 5 },
-                new Employee { Id = 15, FirstName = "Olivia",      LastName = "Reyes",     DepartmentId = 1, IsDeveloper = true },
-                new Employee { Id = 16, FirstName = "William",     LastName = "Morales",   DepartmentId = 2 }
+                new Employee { Id =  1, FirstName = "Jane"       , LastName = "Smith"    , DepartmentId = 3, IsDeveloper = false },
+                new Employee { Id =  2, FirstName = "John"       , LastName = "Johnson"  , DepartmentId = 2, IsDeveloper = true  },
+                new Employee { Id =  3, FirstName = "Mary"       , LastName = "Williams" , DepartmentId = 4, IsDeveloper = false },
+                new Employee { Id =  4, FirstName = "Jack"       , LastName = "Davis"    , DepartmentId = 1, IsDeveloper = true  },
+                new Employee { Id =  5, FirstName = "Mary"       , LastName = "Brown"    , DepartmentId = 5, IsDeveloper = false },
+                new Employee { Id =  6, FirstName = "Bob"        , LastName = "Miller"   , DepartmentId = 2, IsDeveloper = false },
+                new Employee { Id =  7, FirstName = "Alice"      , LastName = "Wilson"   , DepartmentId = 3, IsDeveloper = true  },
+                new Employee { Id =  8, FirstName = "Tom"        , LastName = "Anderson" , DepartmentId = 4, IsDeveloper = false },
+                new Employee { Id =  9, FirstName = "Sarah"      , LastName = "Taylor"   , DepartmentId = 1, IsDeveloper = true  },
+                new Employee { Id = 10, FirstName = "David"      , LastName = "Thompson" , DepartmentId = 5, IsDeveloper = false },
+                new Employee { Id = 11, FirstName = "Emily"      , LastName = "Garcia"   , DepartmentId = 2, IsDeveloper = true  },
+                new Employee { Id = 12, FirstName = "Michael"    , LastName = "Hernandez", DepartmentId = 3, IsDeveloper = false },
+                new Employee { Id = 13, FirstName = "Jessica"    , LastName = "Gonzalez" , DepartmentId = 4, IsDeveloper = true  },
+                new Employee { Id = 14, FirstName = "Christopher", LastName = "Diaz"     , DepartmentId = 5, IsDeveloper = false },
+                new Employee { Id = 15, FirstName = "Olivia"     , LastName = "Reyes"    , DepartmentId = 1, IsDeveloper = true  },
+                new Employee { Id = 16, FirstName = "William"    , LastName = "Morales"  , DepartmentId = 2, IsDeveloper = false }
             );
 
     }
