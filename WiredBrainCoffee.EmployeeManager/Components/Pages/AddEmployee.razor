@@ -1,0 +1,27 @@
+@page "/employees/add"
+@using WiredBrainCoffee.EmployeeManager.Data.Models
+
+<PageTitle>Add Employee</PageTitle>
+
+<h1>Add Employee</h1>
+
+@if (Employee is not null)
+{
+    <EditForm Model="Employee" FormName="addEmployeeForm">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+
+        <button type="submit" class="btn btn-primary">Add</button>
+    </EditForm>
+}
+
+@code {
+
+    private Employee? Employee { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Employee = new Employee();
+    }
+
+}
