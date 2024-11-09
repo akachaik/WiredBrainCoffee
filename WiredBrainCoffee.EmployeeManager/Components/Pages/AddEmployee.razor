@@ -1,17 +1,33 @@
 @page "/employees/add"
 @using WiredBrainCoffee.EmployeeManager.Data.Models
 
+@rendermode InteractiveServer
+
 <PageTitle>Add Employee</PageTitle>
 
 <h1>Add Employee</h1>
 
 @if (Employee is not null)
 {
-    <EditForm Model="Employee" FormName="addEmployeeForm">
+    <EditForm Model="@Employee" FormName="addEmployeeForm">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <ValidationSummary></ValidationSummary>
+        
+        <div class="mb3">
+            <label for="firstname" class="form-label">Firstname</label>
+            <InputText id="firstname" class="form-control"
+                       @bind-Value="Employee.FirstName"></InputText>
+            <ValidationMessage For="() => Employee.FirstName"></ValidationMessage>
+        </div>        
+        
+        <div class="mb3">
+            <label for="lastname" class="form-label">Lastname</label>
+            <InputText id="lastname" class="form-control"
+                       @bind-Value="Employee.LastName"></InputText>
+            <ValidationMessage For="() => Employee.LastName"></ValidationMessage>
+        </div>
 
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary mt-3">Add</button>
     </EditForm>
 }
 
