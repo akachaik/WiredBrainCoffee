@@ -75,6 +75,8 @@
     
     private Department[]? Departments { get; set; }
     
+    private bool IsBusy { get; set; }
+    
     private string? SuccessMessage { get; set; }
     private bool HasSuccessMessage => !string.IsNullOrEmpty(SuccessMessage);
     
@@ -97,13 +99,20 @@
 
     private async Task HandleValidSubmit()
     {
+        if (IsBusy)
+        {
+            return;
+        }
+        
+        IsBusy = true;
+
         try
         {
             if (Employee is null)
             {
                 return;
             }
-        
+
             using var context = ContextFactory.CreateDbContext();
 
             context.Employees.Add(Employee);
@@ -121,6 +130,10 @@
         {
             SuccessMessage = null;
             ErrorMessage = $"Error while adding employee: {exception.Message}";
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 
