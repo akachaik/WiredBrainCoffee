@@ -13,7 +13,7 @@
 
 @if (Employee is not null)
 {
-    <EditForm Model="@Employee" FormName="addEmployeeForm">
+    <EditForm Model="@Employee" FormName="addEmployeeForm" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <ValidationSummary></ValidationSummary>
         
@@ -74,6 +74,25 @@
         Employee = new Employee
         {
             DepartmentId = Departments.FirstOrDefault()?.Id
+        };
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        if (Employee is null)
+        {
+            return;
+        }
+        
+        using var context = ContextFactory.CreateDbContext();
+
+        context.Employees.Add(Employee);
+        await context.SaveChangesAsync();
+
+        // New employee for next creation
+        Employee = new Employee()
+        {
+            DepartmentId = Employee.DepartmentId
         };
     }
 
