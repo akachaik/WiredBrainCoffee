@@ -53,7 +53,7 @@
             <ValidationMessage For="() => Employee.IsDeveloper"></ValidationMessage>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Add</button>
+        <button type="submit" class="btn btn-primary mt-3" disabled="@IsBusy">Add</button>
     </EditForm>
     
     @if (HasSuccessMessage)
