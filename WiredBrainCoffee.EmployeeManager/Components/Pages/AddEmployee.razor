@@ -13,7 +13,10 @@
 
 @if (Employee is not null)
 {
-    <EditForm Model="@Employee" FormName="addEmployeeForm" OnValidSubmit="HandleValidSubmit">
+    <EditForm Model="@Employee" 
+              FormName="addEmployeeForm" 
+              OnValidSubmit="HandleValidSubmit"
+              OnInvalidSubmit="HandleInvalidSubmit">
         <DataAnnotationsValidator></DataAnnotationsValidator>
         <ValidationSummary></ValidationSummary>
         
@@ -135,6 +138,12 @@
         {
             IsBusy = false;
         }
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        SuccessMessage = null;
+        ErrorMessage = null;
     }
 
 }
