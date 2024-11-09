@@ -44,7 +44,8 @@ public class EmployeeManagerDbContext : DbContext
                 new Employee { Id = 13, FirstName = "Jessica"    , LastName = "Gonzalez" , DepartmentId = 4, IsDeveloper = true  },
                 new Employee { Id = 14, FirstName = "Christopher", LastName = "Diaz"     , DepartmentId = 5, IsDeveloper = false },
                 new Employee { Id = 15, FirstName = "Olivia"     , LastName = "Reyes"    , DepartmentId = 1, IsDeveloper = true  },
-                new Employee { Id = 16, FirstName = "William"    , LastName = "Morales"  , DepartmentId = 2, IsDeveloper = false }
+                new Employee { Id = 16, FirstName = "William"    , LastName = "Morales"  , DepartmentId = 2, IsDeveloper = false },
+                new Employee { Id = 17, FirstName = "Scott"      , LastName = "Gu"       , DepartmentId = 1, IsDeveloper = true }
             );
 
     }

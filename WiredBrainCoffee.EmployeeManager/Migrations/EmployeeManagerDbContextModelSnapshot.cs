@@ -226,6 +226,14 @@ namespace WiredBrainCoffee.EmployeeManager.Migrations
                             FirstName = "William",
                             IsDeveloper = false,
                             LastName = "Morales"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            DepartmentId = 1,
+                            FirstName = "Scott",
+                            IsDeveloper = true,
+                            LastName = "Gu"
                         });
                 });
 

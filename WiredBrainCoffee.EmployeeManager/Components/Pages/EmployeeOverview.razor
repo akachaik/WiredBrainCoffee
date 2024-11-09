@@ -23,13 +23,13 @@ else
         <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
             <a class="page-link" href="/employees/list/@(CurrentPage - 1)">Previous</a>
         </li>
-        @for (int i = 1; i <= MaxPageNumber; i++)
+        @for (int i = 1; i <= TotalPages; i++)
         {
             <li class="page-item @(CurrentPage == i ? "active" : "")">
                 <a class="page-link" href="/employees/list/@i">@i</a>
             </li>
         }
-        <li class="page-item @(CurrentPage == MaxPageNumber ? "disabled" : "")">
+        <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
             <a class="page-link" href="/employees/list/@(CurrentPage + 1)">Next</a>
         </li>
     </ul>
@@ -62,7 +62,7 @@ else
 
     private const int ItemsPerPage = 5;
     
-    private int MaxPageNumber { get; set; }
+    private int TotalPages { get; set; }
 
     [Parameter]
     public int? CurrentPage { get; set; }
@@ -84,13 +84,13 @@ else
         var itemsToSkip = (CurrentPage.Value - 1) * ItemsPerPage;
         var employeesCount = await context.Employees.CountAsync();
 
-        MaxPageNumber = employeesCount == 0 
+        TotalPages = employeesCount == 0 
             ? 1 
             : (int)Math.Ceiling(employeesCount / (double)ItemsPerPage);
 
-        if (CurrentPage > MaxPageNumber)
+        if (CurrentPage > TotalPages)
         {
-            NavigationManager.NavigateTo($"{EmployeeListBase}/{MaxPageNumber}");
+            NavigationManager.NavigateTo($"{EmployeeListBase}/{TotalPages}");
             return;
         }
         
