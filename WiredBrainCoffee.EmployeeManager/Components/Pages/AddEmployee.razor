@@ -1,5 +1,9 @@
 @page "/employees/add"
+@using Microsoft.EntityFrameworkCore
+@using WiredBrainCoffee.EmployeeManager.Data
 @using WiredBrainCoffee.EmployeeManager.Data.Models
+
+@inject IDbContextFactory<EmployeeManagerDbContext> ContextFactory
 
 @rendermode InteractiveServer
 
@@ -26,10 +30,26 @@
                        @bind-Value="Employee.LastName"></InputText>
             <ValidationMessage For="() => Employee.LastName"></ValidationMessage>
         </div>        
+
+        <div class="mb-3">
+            <label for="department" class="form-label">Department</label>
+            <InputSelect id="department" class="form-select"
+                         @bind-Value="Employee.DepartmentId">
+                @if (Departments is not null)
+                {
+                    foreach (var department in Departments)
+                    {
+                        <option value="@department.Id">@department.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="() => Employee.IsDeveloper"></ValidationMessage>
+        </div>
+
         <div class="mb-3">
             <label for="isDeveloper" class="form-label">Is Developer:</label>
             <InputCheckbox id="isDeveloper" class="form-check-input"
-                       @bind-Value="Employee.IsDeveloper"></InputCheckbox>
+                           @bind-Value="Employee.IsDeveloper"></InputCheckbox>
             <ValidationMessage For="() => Employee.IsDeveloper"></ValidationMessage>
         </div>
 
@@ -40,10 +60,21 @@
 @code {
 
     private Employee? Employee { get; set; }
+    
+    private Department[]? Departments { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Employee = new Employee();
+        using var context = ContextFactory.CreateDbContext();
+
+        Departments = await context.Departments
+            .OrderBy(dept => dept.Name)
+            .ToArrayAsync();
+        
+        Employee = new Employee
+        {
+            DepartmentId = Departments.FirstOrDefault()?.Id
+        };
     }
 
 }
