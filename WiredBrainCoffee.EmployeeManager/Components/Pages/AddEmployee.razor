@@ -55,6 +55,18 @@
 
         <button type="submit" class="btn btn-primary mt-3">Add</button>
     </EditForm>
+    
+    @if (HasSuccessMessage)
+    {
+        <br/>
+        <div class="alert alert-success">@SuccessMessage</div>
+    }
+    
+    @if (HasErrorMessage)
+    {
+        <br/>
+        <div class="alert alert-danger">@ErrorMessage</div>
+    }
 }
 
 @code {
@@ -62,6 +74,12 @@
     private Employee? Employee { get; set; }
     
     private Department[]? Departments { get; set; }
+    
+    private string? SuccessMessage { get; set; }
+    private bool HasSuccessMessage => !string.IsNullOrEmpty(SuccessMessage);
+    
+    private string? ErrorMessage { get; set; }
+    private bool HasErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
 
     protected override async Task OnInitializedAsync()
     {
@@ -79,21 +97,31 @@
 
     private async Task HandleValidSubmit()
     {
-        if (Employee is null)
+        try
         {
-            return;
-        }
+            if (Employee is null)
+            {
+                return;
+            }
         
-        using var context = ContextFactory.CreateDbContext();
+            using var context = ContextFactory.CreateDbContext();
 
-        context.Employees.Add(Employee);
-        await context.SaveChangesAsync();
+            context.Employees.Add(Employee);
+            await context.SaveChangesAsync();
 
-        // New employee for next creation
-        Employee = new Employee()
+            SuccessMessage = $"Employee {Employee.FirstName} {Employee.LastName} was added successfully";
+            ErrorMessage = null;
+            // New employee for next creation
+            Employee = new Employee()
+            {
+                DepartmentId = Employee.DepartmentId
+            };
+        }
+        catch (Exception exception)
         {
-            DepartmentId = Employee.DepartmentId
-        };
+            SuccessMessage = null;
+            ErrorMessage = $"Error while adding employee: {exception.Message}";
+        }
     }
 
 }
