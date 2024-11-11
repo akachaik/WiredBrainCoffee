@@ -1,0 +1,115 @@
+@page "/employees/edit/{employeeId:int}"
+
+@rendermode InteractiveServer
+
+@using Microsoft.EntityFrameworkCore
+@using WiredBrainCoffee.EmployeeManager.Data
+@using WiredBrainCoffee.EmployeeManager.Data.Models
+@using WiredBrainCoffee.EmployeeManager.Components.Shared
+
+@inject IDbContextFactory<EmployeeManagerDbContext> ContextFactory
+@inject NavigationManager NavigationManager
+@inject StateContainer StateContainer
+
+
+
+<PageTitle>Update Employee</PageTitle>
+
+<h3>Update Employee</h3>
+
+@if (IsBusy)
+{
+    <div>
+        Loading...
+    </div>
+    
+    return;
+}
+
+
+@if (Employee is null)
+{
+    <div class="alert alert-danger">
+        Employee with Id @EmployeeId was not found.
+    </div>
+}
+else
+{
+    <EmployeeForm Employee="@Employee"
+                  Departments="@Departments"
+                  IsBusy="@IsBusy"
+                  IsEdit="true"
+                  OnSubmit="HandleSubmit"
+                  OnCancel="HandleCancel">
+        
+    </EmployeeForm>
+}
+
+
+
+@code {
+    [Parameter]
+    public int EmployeeId { get; set; }
+    
+    public Employee? Employee { get; set; }
+    
+    private Department[]? Departments { get; set; }
+    private bool IsBusy { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsBusy = true;
+
+        try
+        {
+            using var context = ContextFactory.CreateDbContext();
+        
+            Employee = await context.Employees.FirstOrDefaultAsync(emp => emp.Id == EmployeeId);
+
+            Departments = await context.Departments.ToArrayAsync();
+
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private async Task HandleSubmit(bool isValid)
+    {
+        if (Employee is null || !isValid || IsBusy)
+        {
+            return;
+        }
+
+        IsBusy = true;
+        
+        Employee.Department = null;
+        
+        try
+        {
+            using var context = ContextFactory.CreateDbContext();
+
+            context.Employees.Update(Employee);
+
+            await context.SaveChangesAsync();
+            
+            NavigateToEmployeesOverview();
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private void NavigateToEmployeesOverview()
+    {
+        NavigationManager.NavigateTo($"/employees/list/{StateContainer.EmployeeOverviewPage}");
+    }
+
+    private void HandleCancel()
+    {
+        NavigateToEmployeesOverview();
+    }
+
+}

@@ -43,7 +43,16 @@
         <ValidationMessage For="() => Employee.IsDeveloper"></ValidationMessage>
     </div>
 
-    <button type="submit" class="btn btn-primary mt-3" disabled="@IsBusy">Add</button>
+    @if (IsEdit)
+    {
+        <button type="submit" class="btn btn-primary mt-3" disabled="@IsBusy">Update</button>
+        <button type="button" class="btn btn-outline-primary mt-3" disabled="@IsBusy" @onclick="HandleCancel" >Cancel</button>
+        
+    }
+    else
+    {
+        <button type="submit" class="btn btn-primary mt-3" disabled="@IsBusy">Add</button>
+    }
 </EditForm>
 
 
@@ -56,9 +65,15 @@
     
     [Parameter]
     public bool IsBusy { get; set; }
+    
+    [Parameter]
+    public bool IsEdit { get; set; }
 
     [Parameter]
     public EventCallback<bool> OnSubmit { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
 
     private async Task HandleValidSubmit()
     {
@@ -73,6 +88,14 @@
         if (OnSubmit.HasDelegate)
         {
             await OnSubmit.InvokeAsync(false);
+        }
+    }
+
+    private async Task HandleCancel()
+    {
+        if (OnCancel.HasDelegate)
+        {
+            await OnCancel.InvokeAsync();
         }
     }
 
