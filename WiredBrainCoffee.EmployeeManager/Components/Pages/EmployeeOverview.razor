@@ -56,6 +56,7 @@ else
                     <td>@employee.Department?.Name</td>
                     <td>
                         <a href="/employees/edit/@employee.Id" class="btn btn-outline-primary">Edit</a>
+                        <button class="btn btn-outline-danger" @onclick="() => HandleDelete(employee)">Delete</button>
                     </td>
                 </tr>
             }
@@ -74,10 +75,14 @@ else
     public int? CurrentPage { get; set; }
 
     const string EmployeeListBase = "/employees/list";
-    
+
     protected override async Task OnParametersSetAsync()
     {
+        await LoadData();
+    }
 
+    private async Task LoadData()
+    {
         using var contextTask = ContextFactory.CreateDbContextAsync();
         var context = await contextTask;
 
@@ -90,8 +95,8 @@ else
         var itemsToSkip = (CurrentPage.Value - 1) * ItemsPerPage;
         var employeesCount = await context.Employees.CountAsync();
 
-        TotalPages = employeesCount == 0 
-            ? 1 
+        TotalPages = employeesCount == 0
+            ? 1
             : (int)Math.Ceiling(employeesCount / (double)ItemsPerPage);
 
         if (CurrentPage > TotalPages)
@@ -101,7 +106,7 @@ else
         }
 
         StateConainer.EmployeeOverviewPage = CurrentPage.Value;
-        
+
         Employees = await context.Employees
             .Include(e => e.Department)
             .OrderBy(emp => emp.FirstName)
@@ -111,4 +116,16 @@ else
     }
 
     private Employee[]? Employees { get; set; }
+
+    private async Task HandleDelete(Employee employee)
+    {
+        using var context = ContextFactory.CreateDbContext();
+
+        context.Employees.Remove(employee);
+
+        await context.SaveChangesAsync();
+
+        await LoadData();
+    }
+
 }
