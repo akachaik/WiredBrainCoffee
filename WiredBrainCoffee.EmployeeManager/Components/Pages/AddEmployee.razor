@@ -2,6 +2,7 @@
 @using Microsoft.EntityFrameworkCore
 @using WiredBrainCoffee.EmployeeManager.Data
 @using WiredBrainCoffee.EmployeeManager.Data.Models
+@using WiredBrainCoffee.EmployeeManager.Components.Shared
 
 @inject IDbContextFactory<EmployeeManagerDbContext> ContextFactory
 
@@ -13,63 +14,21 @@
 
 @if (Employee is not null)
 {
-    <EditForm Model="@Employee" 
-              FormName="addEmployeeForm" 
-              OnValidSubmit="HandleValidSubmit"
-              OnInvalidSubmit="HandleInvalidSubmit">
-        <DataAnnotationsValidator></DataAnnotationsValidator>
-        <ValidationSummary></ValidationSummary>
-        
-        <div class="mb-3">
-            <label for="firstname" class="form-label">Firstname</label>
-            <InputText id="firstname" class="form-control"
-                       @bind-Value="Employee.FirstName"></InputText>
-            <ValidationMessage For="() => Employee.FirstName"></ValidationMessage>
-        </div>        
-        
-        <div class="mb-3">
-            <label for="lastname" class="form-label">Lastname</label>
-            <InputText id="lastname" class="form-control"
-                       @bind-Value="Employee.LastName"></InputText>
-            <ValidationMessage For="() => Employee.LastName"></ValidationMessage>
-        </div>        
+    <EmployeeForm Employee="@Employee"
+                  Departments="@Departments"
+                  IsBusy="@IsBusy"
+                  OnSubmit="HandleOnSubmit"></EmployeeForm>
+}
+@if (HasSuccessMessage)
+{
+    <br/>
+    <div class="alert alert-success">@SuccessMessage</div>
+}
 
-        <div class="mb-3">
-            <label for="department" class="form-label">Department</label>
-            <InputSelect id="department" class="form-select"
-                         @bind-Value="Employee.DepartmentId">
-                @if (Departments is not null)
-                {
-                    foreach (var department in Departments)
-                    {
-                        <option value="@department.Id">@department.Name</option>
-                    }
-                }
-            </InputSelect>
-            <ValidationMessage For="() => Employee.IsDeveloper"></ValidationMessage>
-        </div>
-
-        <div class="mb-3">
-            <label for="isDeveloper" class="form-label">Is Developer:</label>
-            <InputCheckbox id="isDeveloper" class="form-check-input"
-                           @bind-Value="Employee.IsDeveloper"></InputCheckbox>
-            <ValidationMessage For="() => Employee.IsDeveloper"></ValidationMessage>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-3" disabled="@IsBusy">Add</button>
-    </EditForm>
-    
-    @if (HasSuccessMessage)
-    {
-        <br/>
-        <div class="alert alert-success">@SuccessMessage</div>
-    }
-    
-    @if (HasErrorMessage)
-    {
-        <br/>
-        <div class="alert alert-danger">@ErrorMessage</div>
-    }
+@if (HasErrorMessage)
+{
+    <br/>
+    <div class="alert alert-danger">@ErrorMessage</div>
 }
 
 @code {
@@ -144,6 +103,18 @@
     {
         SuccessMessage = null;
         ErrorMessage = null;
+    }
+
+    private async Task HandleOnSubmit(bool isValid)
+    {
+        if (isValid)
+        {
+            await HandleValidSubmit();
+        }
+        else
+        {
+            HandleInvalidSubmit();
+        }
     }
 
 }

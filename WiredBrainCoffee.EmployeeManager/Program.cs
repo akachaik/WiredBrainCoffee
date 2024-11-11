@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WiredBrainCoffee.EmployeeManager.Components;
+using WiredBrainCoffee.EmployeeManager.Components.Shared;
 using WiredBrainCoffee.EmployeeManager.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ builder.Services.AddDbContextFactory<EmployeeManagerDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<StateContainer>();
 
 var app = builder.Build();
 
