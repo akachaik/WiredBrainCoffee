@@ -9,7 +9,7 @@
 
 @inject IDbContextFactory<EmployeeManagerDbContext> ContextFactory
 @inject NavigationManager NavigationManager
-@inject StateContainer StateConainer
+@inject StateContainer StateContainer
 @inject IJSRuntime JsRuntime
 
 <PageTitle>Employees</PageTitle>
@@ -106,7 +106,7 @@ else
             return;
         }
 
-        StateConainer.EmployeeOverviewPage = CurrentPage.Value;
+        StateContainer.EmployeeOverviewPage = CurrentPage.Value;
 
         Employees = await context.Employees
             .Include(e => e.Department)
