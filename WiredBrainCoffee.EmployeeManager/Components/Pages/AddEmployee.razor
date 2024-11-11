@@ -47,7 +47,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        using var context = ContextFactory.CreateDbContext();
+        using var contextTask = ContextFactory.CreateDbContextAsync();
+        var context = await contextTask;
 
         Departments = await context.Departments
             .OrderBy(dept => dept.Name)
@@ -75,7 +76,8 @@
                 return;
             }
 
-            using var context = ContextFactory.CreateDbContext();
+            using var contextTask = ContextFactory.CreateDbContextAsync();
+            var context = await contextTask;
 
             context.Employees.Add(Employee);
             await context.SaveChangesAsync();

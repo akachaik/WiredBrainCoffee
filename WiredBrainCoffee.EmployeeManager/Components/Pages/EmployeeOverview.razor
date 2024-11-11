@@ -128,7 +128,8 @@ else
             return;
         }
         
-        using var context = ContextFactory.CreateDbContext();
+        using var contextTask = ContextFactory.CreateDbContextAsync();
+        var context = await contextTask;
 
         context.Employees.Remove(employee);
 

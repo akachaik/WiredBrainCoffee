@@ -68,7 +68,8 @@ else
 
         try
         {
-            using var context = ContextFactory.CreateDbContext();
+            using var contextTask = ContextFactory.CreateDbContextAsync();
+            var context = await contextTask;
         
             Employee = await context.Employees
                 .AsNoTracking()
@@ -101,7 +102,8 @@ else
 
         try
         {
-            using var context = ContextFactory.CreateDbContext();
+            using var contextTask = ContextFactory.CreateDbContextAsync();
+            var context = await contextTask;
 
             context.Employees.Update(Employee);
 
