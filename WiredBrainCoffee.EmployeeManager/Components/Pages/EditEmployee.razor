@@ -11,8 +11,6 @@
 @inject NavigationManager NavigationManager
 @inject StateContainer StateContainer
 
-
-
 <PageTitle>Update Employee</PageTitle>
 
 <h3>Update Employee</h3>
@@ -25,7 +23,6 @@
     
     return;
 }
-
 
 @if (Employee is null)
 {
@@ -45,13 +42,11 @@ else
     </EmployeeForm>
 }
 
-
-
 @code {
     [Parameter]
     public int EmployeeId { get; set; }
-    
-    public Employee? Employee { get; set; }
+
+    private Employee? Employee { get; set; }
     
     private Department[]? Departments { get; set; }
     private bool IsBusy { get; set; }
@@ -111,5 +106,4 @@ else
     {
         NavigateToEmployeesOverview();
     }
-
 }

@@ -47,7 +47,6 @@
     {
         <button type="submit" class="btn btn-primary mt-3" disabled="@IsBusy">Update</button>
         <button type="button" class="btn btn-outline-primary mt-3" disabled="@IsBusy" @onclick="HandleCancel" >Cancel</button>
-        
     }
     else
     {
@@ -98,5 +97,4 @@
             await OnCancel.InvokeAsync();
         }
     }
-
 }
