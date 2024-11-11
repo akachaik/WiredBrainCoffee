@@ -10,6 +10,7 @@
 @inject IDbContextFactory<EmployeeManagerDbContext> ContextFactory
 @inject NavigationManager NavigationManager
 @inject StateContainer StateConainer
+@inject IJSRuntime JsRuntime
 
 <PageTitle>Employees</PageTitle>
 
@@ -119,6 +120,14 @@ else
 
     private async Task HandleDelete(Employee employee)
     {
+
+        var confirm = await JsRuntime.InvokeAsync<bool>("confirm", $"Delete employee {employee.FirstName} {employee.LastName}?");
+
+        if (!confirm)
+        {
+            return;
+        }
+        
         using var context = ContextFactory.CreateDbContext();
 
         context.Employees.Remove(employee);
