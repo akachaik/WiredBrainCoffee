@@ -56,8 +56,8 @@ else
                     <td>@employee.IsDeveloper</td>
                     <td>@employee.Department?.Name</td>
                     <td>
-                        <a href="/employees/edit/@employee.Id" class="btn btn-outline-primary">Edit</a>
-                        <button class="btn btn-outline-danger" @onclick="() => HandleDelete(employee)">Delete</button>
+                        <a href="/employees/edit/@employee.Id" class="btn btn-outline-primary btn-sm">Edit</a>
+                        <button class="btn btn-outline-danger btn-sm" @onclick="() => HandleDelete(employee)">Delete</button>
                     </td>
                 </tr>
             }

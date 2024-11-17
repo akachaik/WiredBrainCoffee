@@ -1,5 +1,10 @@
 @using WiredBrainCoffee.EmployeeManager.Data.Models
 
+@if (Employee is null)
+{
+    return;
+}
+
 <EditForm Model="@Employee"
           FormName="addEmployeeForm"
           OnValidSubmit="HandleValidSubmit"
@@ -46,7 +51,7 @@
     @if (IsEdit)
     {
         <button type="submit" class="btn btn-primary mt-3" disabled="@IsBusy">Update</button>
-        <button type="button" class="btn btn-outline-primary mt-3" disabled="@IsBusy" @onclick="HandleCancel" >Cancel</button>
+        <button type="button" class="btn btn-outline-primary mt-3" disabled="@IsBusy" @onclick="HandleCancel">Cancel</button>
     }
     else
     {
