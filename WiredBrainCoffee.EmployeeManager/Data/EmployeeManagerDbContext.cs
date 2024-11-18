@@ -10,7 +10,7 @@ public class EmployeeManagerDbContext : DbContext
     {
         
     }
-    
+
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Department> Departments => Set<Department>();
 
@@ -20,9 +20,9 @@ public class EmployeeManagerDbContext : DbContext
 
         modelBuilder.Entity<Department>()
             .HasData(
-                new Department { Id = 1, Name = "IT" },
-                new Department { Id = 2, Name = "HR" },
-                new Department { Id = 3, Name = "Sales" },
+                new Department { Id = 1, Name = "IT"        },
+                new Department { Id = 2, Name = "HR"        },
+                new Department { Id = 3, Name = "Sales"     },
                 new Department { Id = 4, Name = "Marketing" },
                 new Department { Id = 5, Name = "Financial" }
             );
@@ -45,7 +45,7 @@ public class EmployeeManagerDbContext : DbContext
                 new Employee { Id = 14, FirstName = "Christopher", LastName = "Diaz"     , DepartmentId = 5, IsDeveloper = false },
                 new Employee { Id = 15, FirstName = "Olivia"     , LastName = "Reyes"    , DepartmentId = 1, IsDeveloper = true  },
                 new Employee { Id = 16, FirstName = "William"    , LastName = "Morales"  , DepartmentId = 2, IsDeveloper = false },
-                new Employee { Id = 17, FirstName = "Scott"      , LastName = "Gu"       , DepartmentId = 1, IsDeveloper = true }
+                new Employee { Id = 17, FirstName = "Scott"      , LastName = "Gu"       , DepartmentId = 1, IsDeveloper = true  }
             );
 
     }
