@@ -20,11 +20,12 @@ public class EmployeeManagerDbContext : DbContext
 
         modelBuilder.Entity<Department>()
             .HasData(
-                new Department { Id = 1, Name = "IT"        },
-                new Department { Id = 2, Name = "HR"        },
-                new Department { Id = 3, Name = "Sales"     },
-                new Department { Id = 4, Name = "Marketing" },
-                new Department { Id = 5, Name = "Financial" }
+                new Department { Id = 1, Name = "IT"          },
+                new Department { Id = 2, Name = "HR"          },
+                new Department { Id = 3, Name = "Sales"       },
+                new Department { Id = 4, Name = "Marketing"   },
+                new Department { Id = 5, Name = "Financial"   },
+                new Department { Id = 6, Name = "Maintenance" }
             );
 
         modelBuilder.Entity<Employee>()
